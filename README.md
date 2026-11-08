@@ -29,4 +29,3 @@ Pytest runs the automated suite and creates a terminal summary, an HTML report a
 - Set `DATABASE_PATH` to change the SQLite database location.
 - Set `COOKIE_SECURE=1` when serving over HTTPS.
 - Debug mode is off by default. Use Flask's development server only for local development; deploy behind a production WSGI server for public use.
-
