@@ -1,6 +1,7 @@
 import pytest
 
-import flask_app
+# from flask_app import app
+import app as flask_app
 
 
 @pytest.fixture
