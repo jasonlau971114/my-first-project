@@ -27,4 +27,4 @@ jobs:
 
       - name: Run automated tests
         run: |
-          pytest --cov=app --cov-report=term-missing
+          python -m pytest --cov=app --cov-report=term-missing
