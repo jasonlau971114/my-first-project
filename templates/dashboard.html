@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Your space · Morrow{% endblock %}
+{% block content %}
+  <div class="form-heading">
+    <span class="step-label">YOUR SPACE</span>
+    <h2>Welcome,<br><em>{{ user['name'] }}.</em></h2>
+    <p>You’re signed in and ready for what’s next.</p>
+  </div>
+  <div class="account-card"><span class="account-avatar">{{ user['name'][0]|upper }}</span><div><strong>{{ user['name'] }}</strong><span>{{ user['email'] }}</span></div><span class="account-check">✓</span></div>
+  <form method="post" action="{{ url_for('logout') }}" class="auth-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <button class="primary-button" type="submit">Sign out <span>↗</span></button>
+  </form>
+  <p class="switch-auth">Your account is ready whenever you are.</p>
+{% endblock %}

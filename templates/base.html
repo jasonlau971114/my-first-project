@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f4">
+  <title>{% block title %}Morrow{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('home') }}" aria-label="Morrow home"><span class="brand-mark">m</span><span>morrow</span></a>
+    <div class="topbar-note">A little space to begin again</div>
+  </header>
+  <main class="page-shell">
+    <section class="visual-panel" aria-label="Welcome">
+      <div class="visual-copy">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> YOUR NEXT CHAPTER</span>
+        <h1>Make room<br>for <em>what’s next.</em></h1>
+        <p>A calmer place to bring your ideas, plans, and everyday moments together.</p>
+      </div>
+      <div class="artwork" aria-hidden="true">
+        <div class="sun"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="hill hill-back"></div><div class="hill hill-front"></div>
+        <div class="art-caption"><span>01 / A FRESH START</span><span>↗</span></div>
+      </div>
+      <div class="panel-footer"><span>DESIGNED FOR YOUR EVERY DAY</span><span>EST. 2025</span></div>
+    </section>
+    <section class="form-panel">
+      <div class="mobile-brand"><span class="brand-mark">m</span> morrow</div>
+      <div class="form-content">{% block content %}{% endblock %}</div>
+      <footer class="form-footer"><span>© 2025 Morrow</span><span>Made for a fresh start</span></footer>
+    </section>
+  </main>
+  <script>
+    const passwordInputs = document.querySelectorAll('[data-password]');
+    passwordInputs.forEach((input) => {
+      const button = document.querySelector(`[data-toggle="${input.id}"]`);
+      if (button) button.addEventListener('click', () => {
+        const revealing = input.type === 'password';
+        input.type = revealing ? 'text' : 'password';
+        button.textContent = revealing ? 'Hide' : 'Show';
+        button.setAttribute('aria-label', revealing ? 'Hide password' : 'Show password');
+      });
+    });
+  </script>
+</body>
+</html>

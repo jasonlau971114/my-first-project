@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Create account · Morrow{% endblock %}
+{% block content %}
+  <div class="form-heading">
+    <span class="step-label">START SOMETHING GOOD</span>
+    <h2>Your space<br>starts <em>here.</em></h2>
+    <p>Make an account. It only takes a moment.</p>
+  </div>
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="alerts" aria-live="polite">{% for category, message in messages %}<div class="alert alert-{{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+  <form method="post" class="auth-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label for="name">Your name</label>
+    <input id="name" name="name" type="text" autocomplete="name" placeholder="How should we call you?" value="{{ name }}" maxlength="80" required autofocus>
+    <label for="email">Email address</label>
+    <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" value="{{ email }}" maxlength="254" required>
+    <label for="password">Create a password</label>
+    <div class="password-wrap"><input id="password" name="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" data-password minlength="8" maxlength="128" required><button class="show-password" type="button" data-toggle="password" aria-label="Show password">Show</button></div>
+    <button class="primary-button" type="submit">Create account <span>↗</span></button>
+    <p class="terms-note">By continuing, you agree to keep things kind and respectful.</p>
+  </form>
+  <p class="switch-auth">Already have an account? <a href="{{ url_for('signin') }}">Sign in <span>→</span></a></p>
+{% endblock %}
