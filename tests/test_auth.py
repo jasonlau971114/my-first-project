@@ -180,6 +180,7 @@ def test_database_initialization_and_connection_are_reusable(app):
     # Windows refuses to remove an SQLite file while any connection holds it open.
     database_path.unlink()
 
+
 def _csrf(client, path):
     client.get(path)
     with client.session_transaction() as user_session:
