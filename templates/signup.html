@@ -14,7 +14,7 @@
     <label for="email">Email address</label>
     <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" value="{{ email }}" maxlength="254" required>
     <label for="password">Create a password</label>
-    <div class="password-wrap"><input id="password" name="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" data-password minlength="8" maxlength="128" required><button class="show-password" type="button" data-toggle="password" aria-label="Show password">Show</button></div>
+    <div class="password-wrap"><input id="password" name="password" type="password" autocomplete="new-password" placeholder="10+ characters, uppercase, number, symbol" data-password minlength="10" maxlength="128" pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{10,128}" title="Use at least 10 characters, including an uppercase letter, a number, and a special character." required><button class="show-password" type="button" data-toggle="password" aria-label="Show password">Show</button></div>
     <button class="primary-button" type="submit">Create account <span>↗</span></button>
     <p class="terms-note">By continuing, you agree to keep things kind and respectful.</p>
   </form>

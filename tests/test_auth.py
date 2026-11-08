@@ -14,7 +14,7 @@ def post_with_csrf(client, path, data=None):
     return client.post(path, data={**(data or {}), "csrf_token": token})
 
 
-def signup(client, name="Ada Lovelace", email="ada@example.com", password="correct-horse"):
+def signup(client, name="Ada Lovelace", email="ada@example.com", password="Correct-horse1!"):
     return post_with_csrf(
         client,
         "/signup",
@@ -31,29 +31,32 @@ def test_registration_creates_hashed_account_and_starts_session(client, app):
         user = flask_app.get_db().execute("SELECT * FROM users").fetchone()
     assert user["name"] == "Ada Lovelace"
     assert user["email"] == "ada@example.com"
-    assert user["password_hash"] != "correct-horse"
-    assert check_password_hash(user["password_hash"], "correct-horse")
+    assert user["password_hash"] != "Correct-horse1!"
+    assert check_password_hash(user["password_hash"], "Correct-horse1!")
     dashboard = client.get("/dashboard")
     assert b"Ada Lovelace" in dashboard.data
 
 
 def test_validate_signup_returns_errors_or_empty_list():
-    assert flask_app.validate_signup("Ada", "ada@example.com", "correct-horse") == []
+    assert flask_app.validate_signup("Ada", "ada@example.com", "Correct-horse1!") == []
     assert flask_app.validate_signup("", "bad-email", "short") == [
         "Enter your name (up to 80 characters).",
         "Enter a valid email address.",
-        "Your password must be at least 8 characters.",
+        "Your password must be at least 10 characters.",
+        "Your password must include an uppercase letter.",
+        "Your password must include a number.",
+        "Your password must include a special character.",
     ]
 
 
 @pytest.mark.parametrize(
     ("name", "email", "password", "message"),
     [
-        ("", "ada@example.com", "correct-horse", b"Enter your name"),
-        ("A" * 81, "ada@example.com", "correct-horse", b"Enter your name"),
-        ("Ada", "not-an-email", "correct-horse", b"Enter a valid email"),
-        ("Ada", "a" * 250 + "@x.com", "correct-horse", b"Enter a valid email"),
-        ("Ada", "ada@example.com", "short", b"at least 8 characters"),
+        ("", "ada@example.com", "Correct-horse1!", b"Enter your name"),
+        ("A" * 81, "ada@example.com", "Correct-horse1!", b"Enter your name"),
+        ("Ada", "not-an-email", "Correct-horse1!", b"Enter a valid email"),
+        ("Ada", "a" * 250 + "@x.com", "Correct-horse1!", b"Enter a valid email"),
+        ("Ada", "ada@example.com", "short", b"at least 10 characters"),
         ("Ada", "ada@example.com", "p" * 129, b"128 characters or fewer"),
     ],
 )
@@ -81,7 +84,7 @@ def test_signin_accepts_normalized_email(client):
     response = post_with_csrf(
         client,
         "/signin",
-        {"email": " ADA@EXAMPLE.COM ", "password": "correct-horse"},
+        {"email": " ADA@EXAMPLE.COM ", "password": "Correct-horse1!"},
     )
 
     assert response.status_code == 302
@@ -91,7 +94,7 @@ def test_signin_accepts_normalized_email(client):
 
 @pytest.mark.parametrize(
     ("email", "password"),
-    [("ada@example.com", "wrong-password"), ("unknown@example.com", "correct-horse")],
+    [("ada@example.com", "wrong-password"), ("unknown@example.com", "Correct-horse1!")],
 )
 def test_signin_rejects_unknown_or_incorrect_credentials(client, email, password):
     signup(client)
@@ -142,7 +145,7 @@ def test_logout_clears_session(client):
 
 def test_post_without_valid_csrf_token_is_rejected(client):
     response = client.post(
-        "/signup", data={"name": "Ada", "email": "ada@example.com", "password": "correct-horse"}
+        "/signup", data={"name": "Ada", "email": "ada@example.com", "password": "Correct-horse1!"}
     )
 
     assert response.status_code == 400

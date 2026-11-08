@@ -96,8 +96,14 @@ def validate_signup(name, email, password):
         errors.append("Enter your name (up to 80 characters).")
     if len(email) > 254 or not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", email):
         errors.append("Enter a valid email address.")
-    if len(password) < 8:
-        errors.append("Your password must be at least 8 characters.")
+    if len(password) < 10:
+        errors.append("Your password must be at least 10 characters.")
+    if not re.search(r"[A-Z]", password):
+        errors.append("Your password must include an uppercase letter.")
+    if not re.search(r"[0-9]", password):
+        errors.append("Your password must include a number.")
+    if not re.search(r"[^A-Za-z0-9]", password):
+        errors.append("Your password must include a special character.")
     if len(password) > 128:
         errors.append("Your password must be 128 characters or fewer.")
     return errors
