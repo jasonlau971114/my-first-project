@@ -1,6 +1,6 @@
 import pytest
 
-import app as flask_app
+import flask_app
 
 
 @pytest.fixture
@@ -19,6 +19,7 @@ def app(tmp_path):
     flask_app.init_db()
     yield flask_app.app
     flask_app.app.config.update(original_config)
+
 
 
 @pytest.fixture
